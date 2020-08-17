@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "db:seed": "knex seed:run",
+    "watch": "nodemon --require dotenv/config index.js",
     "server": "nodemon index.js",
     "start": "node index.js"
   },
@@ -22,6 +23,7 @@
   },
   "homepage": "https://github.com/LambdaSchool/node-api-challenge#readme",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "helmet": "^4.0.0",
     "knex": "^0.21.2",

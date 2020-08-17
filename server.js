@@ -1,4 +1,5 @@
 const express = require("express");
+require("dotenv").config();
 const actionsRouter = require("./actions/actionsRouter");
 const projectsRouter = require("./projects/projectsRouter");
 
