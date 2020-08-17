@@ -1,6 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const projects = require("../data/helpers/projectModel");
+const {
+  validateProjectPost,
+  validateProjectId,
+} = require("../middleware/project");
 
 router.get("/api/projects", (req, res) => {
   projects
@@ -13,7 +17,7 @@ router.get("/api/projects", (req, res) => {
     });
 });
 
-router.get("/api/projects/:id", (req, res) => {
+router.get("/api/projects/:id", validateProjectId(), (req, res) => {
   projects
     .get(req.params.id)
     .then((items) => {
@@ -24,7 +28,7 @@ router.get("/api/projects/:id", (req, res) => {
     });
 });
 
-router.post("/api/projects/", (req, res, next) => {
+router.post("/api/projects/", validateProjectPost(), (req, res, next) => {
   projects
     .insert(req.body)
     .then((post) => {
@@ -35,18 +39,23 @@ router.post("/api/projects/", (req, res, next) => {
     });
 });
 
-router.put("/api/projects/:id", (req, res, next) => {
-  projects
-    .update(req.params.id, req.body)
-    .then((item) => {
-      res.status(200).json(item);
-    })
-    .catch((error) => {
-      next(error);
-    });
-});
+router.put(
+  "/api/projects/:id",
+  validateProjectId(),
+  validateProjectPost(),
+  (req, res, next) => {
+    projects
+      .update(req.params.id, req.body)
+      .then((item) => {
+        res.status(200).json(item);
+      })
+      .catch((error) => {
+        next(error);
+      });
+  }
+);
 
-router.delete("/api/projects/:id", (req, res, next) => {
+router.delete("/api/projects/:id", validateProjectId(), (req, res, next) => {
   projects
     .remove(req.params.id)
     .then((count) => {
