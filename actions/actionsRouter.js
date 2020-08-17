@@ -4,6 +4,7 @@ const actions = require("../data/helpers/actionModel");
 const {
   validateActionPost,
   validateActionId,
+  validateActionPut,
 } = require("../middleware/action");
 
 router.get("/api/actions", (req, res) => {
@@ -51,7 +52,7 @@ router.post(
 router.put(
   "/api/actions/:id",
   validateActionId(),
-  validateActionPost(),
+  validateActionPut(),
   (req, res, next) => {
     actions
       .update(req.params.id, req.body)

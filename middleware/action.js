@@ -11,6 +11,17 @@ function validateActionPost() {
   };
 }
 
+function validateActionPut() {
+  return (req, res, next) => {
+    if (!req.body.description || !req.body.notes || !req.body.completed) {
+      return res.status(400).json({
+        message: "Missing required description, notes, or completed field",
+      });
+    }
+    next();
+  };
+}
+
 function validateActionId() {
   return (req, res, next) => {
     actions
@@ -29,4 +40,4 @@ function validateActionId() {
   };
 }
 
-module.exports = { validateActionPost, validateActionId };
+module.exports = { validateActionPost, validateActionId, validateActionPut };

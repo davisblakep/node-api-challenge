@@ -4,6 +4,7 @@ const projects = require("../data/helpers/projectModel");
 const {
   validateProjectPost,
   validateProjectId,
+  validateProjectPut,
 } = require("../middleware/project");
 
 router.get("/api/projects", (req, res) => {
@@ -30,7 +31,11 @@ router.get("/api/projects/:id", validateProjectId(), (req, res) => {
 
 router.post("/api/projects/", validateProjectPost(), (req, res, next) => {
   projects
-    .insert(req.body)
+    .insert({
+      name: req.body.name,
+      description: req.body.description,
+      completed: false,
+    })
     .then((post) => {
       res.status(201).json(post);
     })
@@ -42,7 +47,7 @@ router.post("/api/projects/", validateProjectPost(), (req, res, next) => {
 router.put(
   "/api/projects/:id",
   validateProjectId(),
-  validateProjectPost(),
+  validateProjectPut(),
   (req, res, next) => {
     projects
       .update(req.params.id, req.body)

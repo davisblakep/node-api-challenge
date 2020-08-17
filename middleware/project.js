@@ -11,6 +11,17 @@ function validateProjectPost() {
   };
 }
 
+function validateProjectPut() {
+  return (req, res, next) => {
+    if (!req.body.name || !req.body.description || !req.body.completed) {
+      return res.status(400).json({
+        message: "Missing required name, description, or completed field",
+      });
+    }
+    next();
+  };
+}
+
 function validateProjectId() {
   return (req, res, next) => {
     projects
@@ -29,4 +40,4 @@ function validateProjectId() {
   };
 }
 
-module.exports = { validateProjectPost, validateProjectId };
+module.exports = { validateProjectPost, validateProjectId, validateProjectPut };
